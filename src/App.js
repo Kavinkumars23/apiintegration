@@ -35,17 +35,16 @@ function App() {
             <NavBar />
             <div className='flex'>
                 <div className="w-1/6">
-                    <SideBar tableDatas = {tableRows} setFilter={setFilterData}/>
+                    <SideBar tableDatas={tableRows} setFilter={setFilterData} />
                 </div>
                 <div className="lg:w-5/6 w-full md:mt-0 mt-20">
-                <UserContext.Provider value={filters}>
-                    <Outlet />
+                    <UserContext.Provider value={filters}>
+                        <Outlet />
                     </UserContext.Provider>
                 </div>
-
             </div>
         </>
     );
 }
 
-export {UserContext, App as default};
+export { UserContext, App as default };

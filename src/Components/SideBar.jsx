@@ -1,7 +1,6 @@
-import React, { useState, createContext  } from 'react';
+import React, { useState } from 'react';
 
 
-const UserContext = createContext()
 
 const SideBar = ({ tableDatas,setFilter }) => {
   const accordionData = [
