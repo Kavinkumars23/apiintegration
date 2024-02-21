@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 import { Outlet } from 'react-router-dom';
 import NavBar from './Components/NavBar';
 import SideBar from './Components/SideBar';
 import './index.css';
+const UserContext = createContext()
 
 function App() {
     const [tableRows, setTableRows] = useState([]);
-
+    const [filters, setFilterData] = useState({
+        name: [],
+        email: []
+    });
+    console.log(filters);
     useEffect(() => {
         const getCustomersData = () => {
             axios
@@ -30,10 +35,12 @@ function App() {
             <NavBar />
             <div className='flex'>
                 <div className="w-1/6">
-                    <SideBar tableDatas = {tableRows} />
+                    <SideBar tableDatas = {tableRows} setFilter={setFilterData}/>
                 </div>
                 <div className="lg:w-5/6 w-full md:mt-0 mt-20">
+                <UserContext.Provider value={filters}>
                     <Outlet />
+                    </UserContext.Provider>
                 </div>
 
             </div>
@@ -41,4 +48,4 @@ function App() {
     );
 }
 
-export default App;
+export {UserContext, App as default};

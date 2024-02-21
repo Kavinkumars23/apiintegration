@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import AddCustomerModel from './AddCustomerModel';
+import { UserContext } from '../App';
 
 const ItemsPerPage = 5;
 
@@ -11,7 +12,7 @@ const Table = ({ tableHeader, tableData, addButton, addCustomer, deleteCustomer,
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editModeData, setEditModeData] = useState(null);
     const [mode, setMode] = useState('Add');
-
+ 
     const openModal = (mode, customerData) => {
         setEditModeData(customerData);
         setMode(mode); 
@@ -27,6 +28,10 @@ const Table = ({ tableHeader, tableData, addButton, addCustomer, deleteCustomer,
         openModal('Edit', customerData);
     };
 
+    const filters = useContext(UserContext);
+    console.log(filters);
+
+    
     const filteredData = tableData.filter((row) =>
         Object.values(row).some((value) =>
             String(value).toLowerCase().includes(searchTerm.toLowerCase())
