@@ -42,7 +42,6 @@ function App() {
                         <Outlet />
                     </UserContext.Provider>
                 </div>
-
             </div>
         </>
     );
