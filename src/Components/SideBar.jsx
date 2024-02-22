@@ -1,30 +1,10 @@
 import React, { useState, createContext  } from 'react';
+import {accordionData} from '../Constants/SideBarAccordianDatas.js';
 
 
-const UserContext = createContext()
 
-const SideBar = ({ tableDatas,setFilter }) => {
-  const accordionData = [
-    {
-      title: 'Name',
-      content: tableDatas.map((data, index) => (
-        <div key={index}>
-          <input type="checkbox" id={`nameCheckbox${index}`} value={data.name} onChange={(e) => handleCheckboxChange('name', e.target.value)}/>
-          <label htmlFor={`nameCheckbox${index}`}>{data.name}</label>
-        </div>
-      )),
-    },
-    {
-      title: 'Email',
-      content: tableDatas.map((data, index) => (
-        <div key={index}>
-          <input type="checkbox" id={`emailCheckbox${index}`} value={data.email || 'No email available'} onChange={(e) => handleCheckboxChange('email', e.target.value)} />
-          <label htmlFor={`emailCheckbox${index}`}>{data.email || 'No email available'}</label>
-        </div>
-      )),
-    },
-    
-  ];
+const SideBar = ({ setFilter }) => {
+  
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState({
     name: [],

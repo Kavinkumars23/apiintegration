@@ -17,7 +17,7 @@ const AddCustomerModel = ({ closeCustomerModel, customerAction, mode, customerDa
             name: '',
             email: '',
             gender: '',
-            ststus: ''
+            status: ''
         },
         validationSchema,
         onSubmit: () => {
@@ -32,6 +32,7 @@ const AddCustomerModel = ({ closeCustomerModel, customerAction, mode, customerDa
 
     useEffect(() => {
         if (mode === 'Edit' && customerData) {
+            console.log(customerData);
             formik.setValues(customerData);
         }
     }, [mode, customerData, formik.setValues]);
@@ -73,30 +74,37 @@ const AddCustomerModel = ({ closeCustomerModel, customerAction, mode, customerDa
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Gender</label>
-                        <input
+                        <select
                             name="gender"
                             value={formik.values.gender}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${formik.touched.gender && formik.errors.gender ? 'border-red-500' : ''
                                 }`}
-                            type="text"
-                        />
+                        >
+                            <option value="" label="Select Gender" />
+                            <option value="nale" label="Male" />
+                            <option value="female" label="Female" />
+                            <option value="other" label="Other" />
+                        </select>
                         {formik.touched.gender && formik.errors.gender && (
                             <p className="text-red-500 text-xs italic">{formik.errors.gender}</p>
                         )}
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Status</label>
-                        <input
+                        <select
                             name="status"
                             value={formik.values.status}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${formik.touched.status && formik.errors.status ? 'border-red-500' : ''
                                 }`}
-                            type="text"
-                        />
+                        >
+                            <option value="" label="Select Status" />
+                            <option value="active" label="Active" />
+                            <option value="inactive" label="Inactive" />
+                        </select>
                         {formik.touched.status && formik.errors.status && (
                             <p className="text-red-500 text-xs italic">{formik.errors.status}</p>
                         )}

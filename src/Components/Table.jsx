@@ -29,7 +29,6 @@ const Table = ({ tableHeader, tableData, addButton, addCustomer, deleteCustomer,
     };
 
     const filters = useContext(UserContext);
-    console.log(filters);
 
     
     const filteredData = tableData.filter((row) =>

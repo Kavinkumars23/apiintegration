@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Table from '../Components/Table'
 import axios from "axios";
+import { tableColumns } from '../Constants/TableColumn';
 const Customers = () => {
     const [tableRows, setTableRows] = useState([]);
-
+    const token = 'Bearer 11e65734a957e3ef5064f1bb8844161d1737afaadd5a46773af5ff8072435887';
     const getCustomersData = () => {
         axios
             .get("https://gorest.co.in/public/v2/users",{
                 headers: {
-                    Authorization: `Bearer 11e65734a957e3ef5064f1bb8844161d1737afaadd5a46773af5ff8072435887`,
+                    Authorization: token,
                 }})
             .then(data => {
                 // console.log(data.data)
@@ -25,7 +26,7 @@ const Customers = () => {
         axios
             .post("https://gorest.co.in/public/v2/users", customerData, {
                 headers: {
-                    Authorization: `Bearer 11e65734a957e3ef5064f1bb8844161d1737afaadd5a46773af5ff8072435887`,
+                    Authorization: token,
                 }
             })
             .then(data => {
@@ -42,11 +43,10 @@ const Customers = () => {
         axios
             .put(`https://gorest.co.in/public/v2/users/${id}`, customerData, {
                 headers: {
-                    Authorization: `Bearer 11e65734a957e3ef5064f1bb8844161d1737afaadd5a46773af5ff8072435887`,
+                    Authorization: token,
                 }
             })
             .then(data => {
-                console.log(data);
                 getCustomersData();
             })
             .catch(error => {
@@ -60,17 +60,15 @@ const Customers = () => {
         axios
             .delete(`https://gorest.co.in/public/v2/users/${id}`, {
                 headers: {
-                    Authorization: `Bearer 11e65734a957e3ef5064f1bb8844161d1737afaadd5a46773af5ff8072435887`,
+                    Authorization: token,
                 }
             })
             .then(data => {
-                console.log(data);
                 getCustomersData();
             })
             .catch(error => console.log(error));
     }
 
-    const tableColumns = ["edit", "name", "email", "gender", "status", "delete"];
     return (
         <div className='w-full h-screen '>
             <div className='max-w-screen-lg p-4 mx-auto flex flex-col justify-center w-full h-full'>
