@@ -1,43 +1,31 @@
-import React, { useState, createContext  } from 'react';
-import {accordionData} from '../Constants/SideBarAccordianDatas.js';
+import React, { useState } from 'react';
+import { accordionData } from '../Constants/SideBarAccordianDatas.js';
 
+const SideBar = ({ tableDatas, setFilter }) => {
+  const [selectedNameId, setSelectedNameId] = useState(null);
 
+  const findIdByName = (name) => {
+    const selectedData = tableDatas.find((data) => data.name === name);
+    return selectedData ? selectedData.id : null;
+  };
 
-const SideBar = ({ setFilter }) => {
-  
+  const handleCheckboxChange = (field, value) => {
+    const id = findIdByName(value);
 
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState({
-    name: [],
-    email: []
-});
-const handleCheckboxChange = (field, value) => {
-  setSelectedCheckboxes((prev) => {
-    const updatedCheckboxes = { ...prev };
-    const index = updatedCheckboxes[field].indexOf(value);
+    setSelectedNameId(id);
 
-    if (index === -1) {
-      // Add the value to the array if not already present
-      updatedCheckboxes[field] = [...updatedCheckboxes[field], value];
-    } else {
-      // Remove the value from the array if already present
-      updatedCheckboxes[field] = [
-        ...updatedCheckboxes[field].slice(0, index),
-        ...updatedCheckboxes[field].slice(index + 1),
-      ];
-    }
-    return updatedCheckboxes;
-  });
-};
+    // Call setFilter with the updated selectedNameId
+    setFilter(id);
+  };
+
   const [openAccordion, setOpenAccordion] = useState(null);
 
   const handleAccordionToggle = (index) => {
     setOpenAccordion((prev) => (prev === index ? null : index));
   };
- 
-  setFilter(selectedCheckboxes);
 
   return (
-     <div className='hidden lg:flex flex-col h-full w-1/6 text-white bg-gradient-to-b from-gray-800 to-black fixed px-4 mt-20'>
+    <div className='hidden lg:flex flex-col h-full w-1/6 text-white bg-gradient-to-b from-gray-800 to-black fixed px-4 mt-20'>
       {accordionData.map((item, index) => (
         <div className="relative mb-3" key={index}>
           <h6 className="mb-0">
@@ -55,13 +43,24 @@ const handleCheckboxChange = (field, value) => {
             className={`${openAccordion === index ? 'h-auto' : 'h-0'
               } overflow-hidden transition-all duration-300 ease-in-out`}
           >
-            <div className="p-4 text-sm leading-normal text-white">{item.content}</div>
+            <div className="p-4 text-sm leading-normal text-white">
+              {tableDatas.map((data, index) => (
+                <div key={index}>
+                  <input
+                    type="checkbox"
+                    id={`nameCheckbox${index}`}
+                    value={data.name}
+                    onChange={(e) => handleCheckboxChange('name', e.target.value)}
+                  />
+                  <label htmlFor={`nameCheckbox${index}`}>{data.name}</label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ))}
     </div>
-    
   );
 };
 
-export default SideBar
+export default SideBar;

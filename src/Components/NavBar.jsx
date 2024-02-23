@@ -18,11 +18,7 @@ const NavBar = () => {
             name: 'Customer',
             link: '/Customer'
         },
-        {
-            id: 2,
-            name: 'kavin',
-            link: '/Customer'
-        },
+        
        
     ]
 

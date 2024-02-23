@@ -15,12 +15,11 @@ const tableDatas = getCustomersData.data;
 export const accordionData = [
     {
       title: 'Name',
-      content: ''
-      ,
+      
     },
     {
       title: 'Email',
-      content: '',
+      
     },
     
   ];

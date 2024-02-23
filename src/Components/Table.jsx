@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import AddCustomerModel from './AddCustomerModel';
-import { UserContext } from '../App';
 
 const ItemsPerPage = 5;
 
@@ -28,7 +27,6 @@ const Table = ({ tableHeader, tableData, addButton, addCustomer, deleteCustomer,
         openModal('Edit', customerData);
     };
 
-    const filters = useContext(UserContext);
 
     
     const filteredData = tableData.filter((row) =>
