@@ -55,7 +55,7 @@ const handleCheckboxChange = (field, value) => {
   return (
      <div className='hidden lg:flex flex-col h-full w-1/6 text-white bg-gradient-to-b from-gray-800 to-black fixed px-4 mt-20'>
       {accordionData.map((item, index) => (
-        <div className="relative mb-3" key={index}>
+        <div className="relative p-5 mb-3" key={index}>
           <h6 className="mb-0">
             <button
               className={`relative flex items-center w-full p-4 font-semibold text-left transition-all ease-in border-b border-solid cursor-pointer border-slate-100 text-white rounded-t-1 group text-dark-500 ${openAccordion === index ? 'group-open' : ''
