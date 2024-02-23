@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-
-
 const SideBar = ({ tableDatas,setFilter }) => {
   const accordionData = [
     {
@@ -22,7 +20,6 @@ const SideBar = ({ tableDatas,setFilter }) => {
         </div>
       )),
     },
-    
   ];
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState({
@@ -84,3 +81,4 @@ const handleCheckboxChange = (field, value) => {
 };
 
 export default SideBar
+
