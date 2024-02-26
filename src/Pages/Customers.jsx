@@ -25,7 +25,7 @@ const Customers = () => {
 
     useEffect(() => {
         getCustomersData();
-      }, [filters]); 
+      }, []); 
 
     function createCustomer(customerData) {
         axios
