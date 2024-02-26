@@ -1,26 +1,23 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '../Components/Table';
 import axios from "axios";
 import { tableColumns } from '../Constants/TableColumn';
-import { UserContext } from '../App';
 
 const Customers = () => {
     const [tableRows, setTableRows] = useState([]);
-    const filters = useContext(UserContext);
-    console.log(filters);
+   
     const token = 'Bearer 11e65734a957e3ef5064f1bb8844161d1737afaadd5a46773af5ff8072435887';
-     const api = filters ? `https://gorest.co.in/public/v2/users/${filters}` : `https://gorest.co.in/public/v2/users`;
-    console.log(api);
     const getCustomersData = () => {
         axios
-            .get(api,{
-                headers: {
-                    Authorization: token,
-                }})
-            .then(data => {
-                setTableRows(data.data)
-            })
-            .catch(error => console.log(error));
+          .get("https://gorest.co.in/public/v2/users", {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((data) => {
+            setTableRows(data.data);
+          })
+          .catch((error) => console.log(error));
     };
 
     useEffect(() => {
