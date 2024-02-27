@@ -28,18 +28,37 @@ const Table = ({
     setIsModalOpen(false);
   };
 
+  const additionalStatusOptions = ["Inactive", "Active"];
+  const handleStatusChange = (e, customerId) => {
+    const newStatus = e.target.value;
+    const updatedCustomerData = tableData.map((customer) => {
+      if (customer.id === customerId) {
+        return { ...customer, status: newStatus };
+      }
+      return customer;
+    });
+
+    // Call editCustomer with the updated data
+    editCustomer(
+      customerId,
+      updatedCustomerData.find((customer) => customer.id === customerId)
+    );
+  };
+
   const handleEdit = (index) => {
     const customerData = tableData[index];
     openModal("Edit", customerData);
   };
 
-     const filteredData = Array.isArray(tableData)
-       ? tableData.filter((row) =>
-           Object.values(row).some((value) =>
-             typeof value === 'string' && value.toLowerCase().includes(searchTerm.toLowerCase())
-           )
-         )
-       : [tableData];
+  const filteredData = Array.isArray(tableData)
+    ? tableData.filter((row) =>
+        Object.values(row).some(
+          (value) =>
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      )
+    : [tableData];
 
   const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / ItemsPerPage);
@@ -118,9 +137,15 @@ const Table = ({
                       ) : header === "status" ? (
                         <select
                           value={row[header]}
+                          onChange={(e) => handleStatusChange(e, row.id)}
                           className="px-2 py-1 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                           <option value={row[header]}>{row[header]}</option>
+                          {additionalStatusOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
                         </select>
                       ) : header === "delete" ? (
                         <MdDeleteSweep
@@ -129,7 +154,7 @@ const Table = ({
                           size={25}
                         />
                       ) : (
-                     row[header]
+                        row[header]
                       )}
                     </td>
                   ))}

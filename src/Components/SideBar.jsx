@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { accordionData } from '../Constants/SideBarAccordianDatas.js';
+import React, { useState } from "react";
+import { accordionData } from "../Constants/SideBarAccordianDatas.js";
 
 const SideBar = ({ tableDatas, handleSelectedRow }) => {
-  const findIdByName = (name) => {
-    const selectedData = tableDatas.find((data) => data.name === name);
+  const findIdByName = (name, field) => {
+    const selectedData = tableDatas.find(
+      (data) => data[field === "name" ? "name" : "email"] === name
+    );
     return selectedData ? selectedData.id : null;
   };
 
   const handleCheckboxChange = (field, value) => {
-    const id = findIdByName(value);
-
+    const id = findIdByName(value, field);
+    
     handleSelectedRow(id);
   };
 
@@ -46,13 +48,16 @@ const SideBar = ({ tableDatas, handleSelectedRow }) => {
                   <input
                     type="checkbox"
                     id={`nameCheckbox${index}`}
-                    value={data.name}
+                    value={item.title === "Name" ? data.name : data.email}
                     onChange={(e) =>
-                      handleCheckboxChange("name", e.target.value)
+                      handleCheckboxChange(
+                        item.title === "Name" ? "name" : "email",
+                        e.target.value
+                      )
                     }
                   />
                   <label htmlFor={`nameCheckbox${index}`}>
-                    {data.name }
+                    {item.title === "Name" ? data.name : data.email}
                   </label>
                 </div>
               ))}
