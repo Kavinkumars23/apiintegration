@@ -14,6 +14,7 @@ function App() {
     navigate(`/TableSelectedRow/${id}`);
   }
 
+
   const getCustomersData = () => {
     axios
       .get("https://gorest.co.in/public/v2/users", {
@@ -44,6 +45,7 @@ function App() {
       </div>
     </>
   );
+
 }
 
 export { UserContext, App as default };

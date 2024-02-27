@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { accordionData } from "../Constants/SideBarAccordianDatas.js";
 
@@ -14,6 +15,7 @@ const SideBar = ({ tableDatas, handleSelectedRow }) => {
     
     handleSelectedRow(id);
   };
+
 
   const [openAccordion, setOpenAccordion] = useState(null);
 
@@ -70,3 +72,4 @@ const SideBar = ({ tableDatas, handleSelectedRow }) => {
 };
 
 export default SideBar;
+

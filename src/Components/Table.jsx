@@ -38,6 +38,7 @@ const Table = ({
       return customer;
     });
 
+
     // Call editCustomer with the updated data
     editCustomer(
       customerId,
@@ -49,6 +50,7 @@ const Table = ({
     const customerData = tableData[index];
     openModal("Edit", customerData);
   };
+
 
   const filteredData = Array.isArray(tableData)
     ? tableData.filter((row) =>
