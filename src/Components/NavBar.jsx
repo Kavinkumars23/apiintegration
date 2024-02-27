@@ -18,6 +18,7 @@ const NavBar = () => {
             name: 'Customer',
             link: '/Customer'
         },
+        
        
     ]
 

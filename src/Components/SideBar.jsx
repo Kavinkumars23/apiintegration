@@ -1,65 +1,37 @@
-import React, { useState } from 'react';
 
-const SideBar = ({ tableDatas,setFilter }) => {
-  const accordionData = [
-    {
-      title: 'Name',
-      content: tableDatas.map((data, index) => (
-        <div key={index}>
-          <input type="checkbox" id={`nameCheckbox${index}`} value={data.name} onChange={(e) => handleCheckboxChange('name', e.target.value)}/>
-          <label htmlFor={`nameCheckbox${index}`}>{data.name}</label>
-        </div>
-      )),
-    },
-    {
-      title: 'Email',
-      content: tableDatas.map((data, index) => (
-        <div key={index}>
-          <input type="checkbox" id={`emailCheckbox${index}`} value={data.email || 'No email available'} onChange={(e) => handleCheckboxChange('email', e.target.value)} />
-          <label htmlFor={`emailCheckbox${index}`}>{data.email || 'No email available'}</label>
-        </div>
-      )),
-    },
-  ];
+import React, { useState } from "react";
+import { accordionData } from "../Constants/SideBarAccordianDatas.js";
 
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState({
-    name: [],
-    email: []
-});
-const handleCheckboxChange = (field, value) => {
-  setSelectedCheckboxes((prev) => {
-    const updatedCheckboxes = { ...prev };
-    const index = updatedCheckboxes[field].indexOf(value);
+const SideBar = ({ tableDatas, handleSelectedRow }) => {
+  const findIdByName = (name, field) => {
+    const selectedData = tableDatas.find(
+      (data) => data[field === "name" ? "name" : "email"] === name
+    );
+    return selectedData ? selectedData.id : null;
+  };
 
-    if (index === -1) {
-      // Add the value to the array if not already present
-      updatedCheckboxes[field] = [...updatedCheckboxes[field], value];
-    } else {
-      // Remove the value from the array if already present
-      updatedCheckboxes[field] = [
-        ...updatedCheckboxes[field].slice(0, index),
-        ...updatedCheckboxes[field].slice(index + 1),
-      ];
-    }
-    return updatedCheckboxes;
-  });
-};
+  const handleCheckboxChange = (field, value) => {
+    const id = findIdByName(value, field);
+    
+    handleSelectedRow(id);
+  };
+
+
   const [openAccordion, setOpenAccordion] = useState(null);
 
   const handleAccordionToggle = (index) => {
     setOpenAccordion((prev) => (prev === index ? null : index));
   };
- 
-  setFilter(selectedCheckboxes);
 
   return (
-     <div className='hidden lg:flex flex-col h-full w-1/6 text-white bg-gradient-to-b from-gray-800 to-black fixed px-4 mt-20'>
+    <div className="hidden lg:flex flex-col h-full w-1/6 text-white bg-gradient-to-b from-gray-800 to-black fixed px-4 mt-20">
       {accordionData.map((item, index) => (
         <div className="relative mb-3" key={index}>
           <h6 className="mb-0">
             <button
-              className={`relative flex items-center w-full p-4 font-semibold text-left transition-all ease-in border-b border-solid cursor-pointer border-slate-100 text-white rounded-t-1 group text-dark-500 ${openAccordion === index ? 'group-open' : ''
-                }`}
+              className={`relative flex items-center w-full p-4 font-semibold text-left transition-all ease-in border-b border-solid cursor-pointer border-slate-100 text-white rounded-t-1 group text-dark-500 ${
+                openAccordion === index ? "group-open" : ""
+              }`}
               onClick={() => handleAccordionToggle(index)}
             >
               <span>{item.title}</span>
@@ -68,17 +40,36 @@ const handleCheckboxChange = (field, value) => {
             </button>
           </h6>
           <div
-            className={`${openAccordion === index ? 'h-auto' : 'h-0'
-              } overflow-hidden transition-all duration-300 ease-in-out`}
+            className={`${
+              openAccordion === index ? "h-auto" : "h-0"
+            } overflow-hidden transition-all duration-300 ease-in-out`}
           >
-            <div className="p-4 text-sm leading-normal text-white">{item.content}</div>
+            <div className="p-4 text-sm leading-normal text-white">
+              {tableDatas.map((data, index) => (
+                <div key={index}>
+                  <input
+                    type="checkbox"
+                    id={`nameCheckbox${index}`}
+                    value={item.title === "Name" ? data.name : data.email}
+                    onChange={(e) =>
+                      handleCheckboxChange(
+                        item.title === "Name" ? "name" : "email",
+                        e.target.value
+                      )
+                    }
+                  />
+                  <label htmlFor={`nameCheckbox${index}`}>
+                    {item.title === "Name" ? data.name : data.email}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ))}
     </div>
-    
   );
 };
 
-export default SideBar
+export default SideBar;
 
