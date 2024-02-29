@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { accordionData } from "../Constants/SideBarAccordianDatas.js";
 
@@ -7,15 +6,16 @@ const SideBar = ({ tableDatas, handleSelectedRow }) => {
     const selectedData = tableDatas.find(
       (data) => data[field === "name" ? "name" : "email"] === name
     );
-    return selectedData ? selectedData.id : null;
+    return selectedData && selectedData.id ;
   };
 
-  const handleCheckboxChange = (field, value) => {
+  const [selectedRadio, setSelectedRadio] = useState({});
+
+  const handleRadioChange = (field, value) => {
     const id = findIdByName(value, field);
-    
     handleSelectedRow(id);
+    setSelectedRadio((prev) => ({ ...prev, [field]: value }));
   };
-
 
   const [openAccordion, setOpenAccordion] = useState(null);
 
@@ -35,8 +35,6 @@ const SideBar = ({ tableDatas, handleSelectedRow }) => {
               onClick={() => handleAccordionToggle(index)}
             >
               <span>{item.title}</span>
-              <i className="absolute right-0 pt-1 text-xs fa fa-plus group-open:opacity-0"></i>
-              <i className="absolute right-0 pt-1 text-xs opacity-0 fa fa-minus group-open:opacity-100"></i>
             </button>
           </h6>
           <div
@@ -45,20 +43,24 @@ const SideBar = ({ tableDatas, handleSelectedRow }) => {
             } overflow-hidden transition-all duration-300 ease-in-out`}
           >
             <div className="p-4 text-sm leading-normal text-white">
-              {tableDatas.map((data, index) => (
-                <div key={index}>
+              {tableDatas.map((data, dataIndex) => (
+                <div key={dataIndex}>
                   <input
-                    type="checkbox"
-                    id={`nameCheckbox${index}`}
+                    type="radio"
                     value={item.title === "Name" ? data.name : data.email}
+                    checked={
+                      selectedRadio[
+                        item.title === "Name" ? "name" : "email"
+                      ] === (item.title === "Name" ? data.name : data.email)
+                    }
                     onChange={(e) =>
-                      handleCheckboxChange(
+                      handleRadioChange(
                         item.title === "Name" ? "name" : "email",
                         e.target.value
                       )
                     }
                   />
-                  <label htmlFor={`nameCheckbox${index}`}>
+                  <label>
                     {item.title === "Name" ? data.name : data.email}
                   </label>
                 </div>
@@ -72,4 +74,3 @@ const SideBar = ({ tableDatas, handleSelectedRow }) => {
 };
 
 export default SideBar;
-

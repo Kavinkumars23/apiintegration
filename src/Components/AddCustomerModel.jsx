@@ -1,22 +1,32 @@
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Button from "./Button";
 
 const AddCustomerModel = ({
   closeCustomerModel,
   customerAction,
-  mode,
+  button_mode,
   customerData,
 }) => {
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .matches(/^\S.*$/, "Not valid")
+      .matches(
+        /^[a-zA-Z0-9\s]*$/,
+        "Name can only contain letters, numbers, and spaces"
+      )
+      .required("Name is required"),
+
     email: Yup.string()
       .email("Invalid email format")
+      .matches(/@(gmail\.com|outlook\.com)$/, "Host Not found")
       .required("Email is required"),
     gender: Yup.string().required("Gender is required"),
     status: Yup.string().required("Status is required"),
   });
 
+  //console.log(button_mode);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -25,22 +35,30 @@ const AddCustomerModel = ({
       status: "",
     },
     validationSchema,
-    onSubmit: () => {
-      if (mode === "Add") {
-        customerAction(formik.values);
-      } else if (mode === "Edit") {
-        customerAction(customerData.id, formik.values);
+    onSubmit: async () => {
+      try {
+        if (button_mode === "Add") {
+          console.log("add");
+          await customerAction(formik.values);
+        } else if (button_mode === "Edit") {
+          console.log("kkk");
+          await customerAction(customerData.id, formik.values);
+        }
+        closeCustomerModel();
+      } catch (error) {
+        console.error("Error occurred:", error);
       }
-      closeCustomerModel();
     },
   });
 
   useEffect(() => {
-    if (mode === "Edit" && customerData) {
-      console.log(customerData);
-      formik.setValues(customerData);
+    if (button_mode === "Edit" && customerData) {
+      formik.setValues((prevValues) => ({
+        ...prevValues,
+        ...customerData,
+      }));
     }
-  }, [mode, customerData, formik.setValues]);
+  }, [button_mode, customerData, formik.setValues]);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
@@ -147,15 +165,25 @@ const AddCustomerModel = ({
               type="submit"
               className="bg-gray-700 text-white rounded-lg p-2 hover:scale-110 duration-300"
             >
-              {mode} Customer
+              Add
             </button>
-            <button
-              type="button"
-              className="bg-gray-700 text-white rounded-lg p-2 hover:scale-110 duration-300 px-8"
-              onClick={closeCustomerModel}
-            >
-              Close
-            </button>
+            {/* <Button
+              buttonName={
+                button_mode === "add" ? "Add Customer" : "edit Customer"
+              }
+              buttonType={"submit"}
+              buttonStyle={
+                "bg-gray-700 text-white rounded-lg p-2 hover:scale-110 duration-300"
+              }
+            /> */}
+            <Button
+              buttonName={"Close"}
+              buttonAction={closeCustomerModel}
+              buttonType={"button"}
+              buttonStyle={
+                "bg-gray-700 text-white rounded-lg p-2 hover:scale-110 duration-300 px-8"
+              }
+            />
           </div>
         </form>
       </div>

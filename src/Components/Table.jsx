@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import AddCustomerModel from "./AddCustomerModel";
+import Button from "./Button";
 
 const ItemsPerPage = 5;
-
 const Table = ({
   tableHeader,
   tableData,
@@ -17,8 +17,10 @@ const Table = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editModeData, setEditModeData] = useState(null);
-  const [mode, setMode] = useState("Add");
+  const [button_mode, setMode] = useState("add");
+
   const openModal = (mode, customerData) => {
+    console.log(mode); // Log the value of mode
     setEditModeData(customerData);
     setMode(mode);
     setIsModalOpen(true);
@@ -37,8 +39,6 @@ const Table = ({
       }
       return customer;
     });
-
-
     // Call editCustomer with the updated data
     editCustomer(
       customerId,
@@ -47,10 +47,11 @@ const Table = ({
   };
 
   const handleEdit = (index) => {
-    const customerData = tableData[index];
+    const customerData = Array.isArray(tableData)
+      ? tableData[index]
+      : tableData;
     openModal("Edit", customerData);
   };
-
 
   const filteredData = Array.isArray(tableData)
     ? tableData.filter((row) =>
@@ -95,16 +96,18 @@ const Table = ({
         </div>
         <div>
           {addButton && (
-            <button
-              className="bg-gray-700 rounded-lg p-2 mb-3 text-gray-400 ms-3 hover:scale-110 duration-300"
-              onClick={() => openModal("Add")}
-            >
-              Add Customer
-            </button>
+            <Button
+              buttonName="Add Customer"
+              buttonAction={openModal}
+              buttonType={"button"}
+              buttonStyle={
+                "bg-gray-700 rounded-lg p-2 mb-3 text-gray-400 ms-3 hover:scale-110 duration-300"
+              }
+            />
           )}
         </div>
       </div>
-      <div className="relative  overflow-x-auto rounded-lg">
+      <div className=" overflow-x-auto rounded-lg">
         <div className="">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
             <thead className="text-xs text-gray-400 uppercase bg-gray-700">
@@ -139,7 +142,7 @@ const Table = ({
                       ) : header === "status" ? (
                         <select
                           value={row[header]}
-                          onChange={(e) => handleStatusChange(e, row.id)}
+                          onChange={(e) => handleStatusChange(e, row["id"])}
                           className="px-2 py-1 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                           <option value={row[header]}>{row[header]}</option>
@@ -168,19 +171,20 @@ const Table = ({
       </div>
       <div className="flex justify-center mt-3">
         <ul className=" flex ">
-          {page.map((page_number) => (
-            <li className="p-2 " key={page_number}>
-              <a onClick={() => setCurrentPage(page_number)}>{page_number}</a>
-            </li>
-          ))}
+          {page &&
+            Array.isArray(page) &&
+            page.map((page_number) => (
+              <li className="p-2" key={page_number}>
+                <a onClick={() => setCurrentPage(page_number)}>{page_number}</a>
+              </li>
+            ))}
         </ul>
       </div>
-
       {isModalOpen && (
         <AddCustomerModel
           closeCustomerModel={closeModal}
-          customerAction={mode === "Add" ? addCustomer : editCustomer}
-          mode={mode}
+          customerAction={button_mode === "add" ? addCustomer : editCustomer}
+          button_mode={button_mode}
           customerData={editModeData}
         />
       )}
