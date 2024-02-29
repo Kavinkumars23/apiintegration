@@ -5,32 +5,28 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "./Components/NavBar";
 import SideBar from "./Components/SideBar";
 import "./index.css";
+import apiService from "./Constants/ApiServices";
 const UserContext = createContext();
 
 function App() {
   const [tableRows, setTableRows] = useState([]);
   const navigate = useNavigate();
+
   function handleRowClick(id) {
-    navigate(`/TableSelectedRow/${id}`);
+    navigate(`/Customer/${id}`);
   }
 
-
-  const getCustomersData = () => {
-    axios
-      .get("https://gorest.co.in/public/v2/users", {
-        headers: {
-          Authorization: `Bearer 11e65734a957e3ef5064f1bb8844161d1737afaadd5a46773af5ff8072435887`,
-        },
-      })
+  
+  useEffect(() => {
+    console.log("fetch data in app");
+    apiService
+      .getCustomersData()
       .then((data) => {
-        // console.log(data.data)
         setTableRows(data.data);
       })
       .catch((error) => console.log(error));
-  };
-  useEffect(() => {
-    getCustomersData();
   }, []);
+  
 
   return (
     <>
