@@ -33,6 +33,7 @@ const AddCustomerModel = ({
       email: "",
       gender: "",
       status: "",
+      
     },
     validationSchema,
     onSubmit: async () => {
