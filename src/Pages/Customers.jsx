@@ -1,9 +1,9 @@
 // Customers.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Table from "../Components/Table";
 import apiService from "../Constants/ApiServices";
-import { tableColumns } from "../Constants/TableColumn";
+import { tableColumns } from "../Constants/TableConstants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
@@ -15,13 +15,13 @@ const Customers = () => {
   const notifyDeleteError = () => toast.success("Delete Not Successful");
 
   useEffect(() => {
-    console.log("fetch data in customer");
-    apiService
-      .getCustomersData(id)
-      .then((data) => {
-        setTableRows(data.data);
-      })
-      .catch((error) => console.log(error));
+      console.log("fetch data in customer");
+      apiService
+        .getCustomersData(id)
+        .then((data) => {
+          setTableRows(data.data);
+        })
+        .catch((error) => console.log(error));
   }, [id]);
 
   function createCustomer(customerData) {

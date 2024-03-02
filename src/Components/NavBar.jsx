@@ -2,21 +2,11 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import { useState } from "react"
 import { FaBars, FaTimes } from "react-icons/fa";
+import { links } from '../Constants/TableConstants';
 
 const NavBar = () => {
     const [nav, setnav] = useState(false)
-    const links = [
-        {
-            id: 1,
-            name: 'home',
-            link: '/'
-        },
-        {
-            id: 2,
-            name: 'Customer',
-            link: '/Customer'
-        },
-    ]
+    
 
     return (
       <div className="flex justify-between items-center w-full h-20 text-white bg-gradient-to-r from-gray-800 to-black fixed px-4">

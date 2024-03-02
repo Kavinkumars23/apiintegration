@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "./Button";
+import { addFormLables } from "../Constants/TableConstants";
 
 const AddCustomerModel = ({
   closeCustomerModel,
@@ -37,8 +38,7 @@ const AddCustomerModel = ({
     validationSchema,
     onSubmit: async () => {
       try {
-        if (button_mode === "Add") {
-          console.log("add");
+        if (button_mode === "add") {
           await customerAction(formik.values);
         } else if (button_mode === "Edit") {
           console.log("kkk");
@@ -67,7 +67,7 @@ const AddCustomerModel = ({
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Name
+              {addFormLables.Name}
             </label>
             <input
               name="name"
@@ -161,13 +161,13 @@ const AddCustomerModel = ({
             )}
           </div>
           <div className="flex justify-between">
-            <button
+            {/* <button
               type="submit"
               className="bg-gray-700 text-white rounded-lg p-2 hover:scale-110 duration-300"
             >
               Add
-            </button>
-            {/* <Button
+            </button> */}
+            <Button
               buttonName={
                 button_mode === "add" ? "Add Customer" : "edit Customer"
               }
@@ -175,7 +175,7 @@ const AddCustomerModel = ({
               buttonStyle={
                 "bg-gray-700 text-white rounded-lg p-2 hover:scale-110 duration-300"
               }
-            /> */}
+            />
             <Button
               buttonName={"Close"}
               buttonAction={closeCustomerModel}

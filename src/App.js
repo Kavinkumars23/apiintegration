@@ -6,19 +6,15 @@ import NavBar from "./Components/NavBar";
 import SideBar from "./Components/SideBar";
 import "./index.css";
 import apiService from "./Constants/ApiServices";
+
 const UserContext = createContext();
 
 function App() {
-  const [tableRows, setTableRows] = useState([]);
-  const navigate = useNavigate();
-
-  function handleRowClick(id) {
-    navigate(`/Customer/${id}`);
-  }
+  const [tableDatas, setTableRows] = useState([]);
+  
 
   
   useEffect(() => {
-    console.log("fetch data in app");
     apiService
       .getCustomersData()
       .then((data) => {
@@ -30,15 +26,17 @@ function App() {
 
   return (
     <>
+    <UserContext.Provider value={tableDatas}>
       <NavBar />
       <div className="flex">
         <div className="w-1/6">
-          <SideBar tableDatas={tableRows} handleSelectedRow={handleRowClick} />
+          <SideBar />
         </div>
         <div className="lg:w-5/6 w-full md:mt-0 mt-20">
           <Outlet />
         </div>
       </div>
+      </UserContext.Provider>
     </>
   );
 
