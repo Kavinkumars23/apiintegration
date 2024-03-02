@@ -3,6 +3,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import AddCustomerModel from "./AddCustomerModel";
 import Button from "./Button";
+import { additionalStatusOptions } from "../Constants/TableConstants";
 
 const ItemsPerPage = 5;
 const Table = ({
@@ -20,17 +21,11 @@ const Table = ({
   const [button_mode, setMode] = useState("add");
 
   const openModal = (mode, customerData) => {
-    console.log(mode); // Log the value of mode
     setEditModeData(customerData);
     setMode(mode);
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const additionalStatusOptions = ["Inactive", "Active"];
   const handleStatusChange = (e, customerId) => {
     const newStatus = e.target.value;
     const updatedCustomerData = tableData.map((customer) => {
@@ -98,7 +93,7 @@ const Table = ({
           {addButton && (
             <Button
               buttonName="Add Customer"
-              buttonAction={openModal}
+              buttonAction={() => openModal("add", null)}
               buttonType={"button"}
               buttonStyle={
                 "bg-gray-700 rounded-lg p-2 mb-3 text-gray-400 ms-3 hover:scale-110 duration-300"
@@ -113,58 +108,66 @@ const Table = ({
             <thead className="text-xs text-gray-400 uppercase bg-gray-700">
               <tr>
                 <th className="px-6 py-3">Id</th>
-                {tableHeader.map((header) => (
-                  <th className="px-6 py-3" key={header}>
-                    {header}
-                  </th>
-                ))}
+                {tableHeader &&
+                  Array.isArray(tableHeader) &&
+                  tableHeader.map((header) => (
+                    <th className="px-6 py-3" key={header}>
+                      {header}
+                    </th>
+                  ))}
               </tr>
             </thead>
             <tbody>
-              {data.map((row, index) => (
-                <tr
-                  className="border-b bg-gray-800 border-gray-700"
-                  key={index}
-                >
-                  <td className="px-6 py-4 font-medium  whitespace-nowrap text-white">
-                    {startingSerialNumber + index}
-                  </td>
-                  {tableHeader.map((header) => (
-                    <td
-                      className="px-6 py-4 font-medium  whitespace-nowrap text-white"
-                      key={header}
-                    >
-                      {header === "edit" ? (
-                        <FaEdit
-                          className="cursor-pointer"
-                          onClick={() => handleEdit(index)}
-                        />
-                      ) : header === "status" ? (
-                        <select
-                          value={row[header]}
-                          onChange={(e) => handleStatusChange(e, row["id"])}
-                          className="px-2 py-1 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                          <option value={row[header]}>{row[header]}</option>
-                          {additionalStatusOptions.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      ) : header === "delete" ? (
-                        <MdDeleteSweep
-                          className="cursor-pointer"
-                          onClick={() => deleteCustomer(row.id)}
-                          size={25}
-                        />
-                      ) : (
-                        row[header]
-                      )}
+              {data &&
+                Array.isArray(data) &&
+                data.map((row, index) => (
+                  <tr
+                    className="border-b bg-gray-800 border-gray-700"
+                    key={index}
+                  >
+                    <td className="px-6 py-4 font-medium  whitespace-nowrap text-white">
+                      {startingSerialNumber + index}
                     </td>
-                  ))}
-                </tr>
-              ))}
+                    {tableHeader &&
+                      Array.isArray(tableHeader) &&
+                      tableHeader.map((header) => (
+                        <td
+                          className="px-6 py-4 font-medium  whitespace-nowrap text-white"
+                          key={header}
+                        >
+                          {header === "edit" ? (
+                            <FaEdit
+                              className="cursor-pointer"
+                              onClick={() => handleEdit(index)}
+                            />
+                          ) : header === "status" ? (
+                            <select
+                              value={row[header]}
+                              onChange={(e) => handleStatusChange(e, row["id"])}
+                              className="px-2 py-1 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                              <option value={row[header]}>{row[header]}</option>
+                              {additionalStatusOptions &&
+                                Array.isArray(additionalStatusOptions) &&
+                                additionalStatusOptions.map((option) => (
+                                  <option key={option} value={option}>
+                                    {option}
+                                  </option>
+                                ))}
+                            </select>
+                          ) : header === "delete" ? (
+                            <MdDeleteSweep
+                              className="cursor-pointer"
+                              onClick={() => deleteCustomer(row.id)}
+                              size={25}
+                            />
+                          ) : (
+                            row[header]
+                          )}
+                        </td>
+                      ))}
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
@@ -182,7 +185,9 @@ const Table = ({
       </div>
       {isModalOpen && (
         <AddCustomerModel
-          closeCustomerModel={closeModal}
+          closeCustomerModel={() => {
+            setIsModalOpen(false);
+          }}
           customerAction={button_mode === "add" ? addCustomer : editCustomer}
           button_mode={button_mode}
           customerData={editModeData}
