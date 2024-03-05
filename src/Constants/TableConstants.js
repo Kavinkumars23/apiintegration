@@ -8,7 +8,7 @@ export const tableColumns = [
 ];
 
 export const additionalStatusOptions = ["Inactive", "Active"];
-
+export const id = "Id";
 export const addFormLables = {
   Name: "Name",
   Email: "Email",
@@ -17,7 +17,6 @@ export const addFormLables = {
 };
 
 export const links = [
-  
   {
     id: 1,
     name: "Customer",
@@ -26,3 +25,39 @@ export const links = [
 ];
 
 export const logo = "API Integration";
+
+export const modelName = " Customer Modal";
+
+export const genderMenu = [
+  {
+    value: "",
+    label: "Select Gender",
+  },
+  {
+    value: "male",
+    label: "Male",
+  },
+  {
+    value: "female",
+    label: "Female",
+  },
+  {
+    value: "other",
+    label: "Other",
+  },
+];
+
+export const statusMenu = [
+  {
+    value: "",
+    label: "Select Status",
+  },
+  {
+    value: "active",
+    label: "Active",
+  },
+  {
+    value: "inactive",
+    label: "Inactive",
+  },
+];
