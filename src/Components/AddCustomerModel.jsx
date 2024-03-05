@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "./Button";
-import { addFormLables } from "../Constants/TableConstants";
+import { addFormLables, genderMenu, modelName, statusMenu } from "../Constants/TableConstants";
 
 const AddCustomerModel = ({
   closeCustomerModel,
@@ -63,7 +63,7 @@ const AddCustomerModel = ({
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div className="bg-white p-8 rounded-lg">
-        <h2 className="text-2xl mb-4">Add Customer Modal</h2>
+        <h2 className="text-2xl mb-4">{modelName}</h2>
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -75,9 +75,7 @@ const AddCustomerModel = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                formik.touched.name && formik.errors.name
-                  ? "border-red-500"
-                  : ""
+                formik.touched.name && formik.errors.name && "border-red-500"
               }`}
               type="text"
             />
@@ -89,7 +87,7 @@ const AddCustomerModel = ({
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Email
+              {addFormLables.Email}
             </label>
             <input
               name="email"
@@ -97,9 +95,7 @@ const AddCustomerModel = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                formik.touched.email && formik.errors.email
-                  ? "border-red-500"
-                  : ""
+                formik.touched.email && formik.errors.email && "border-red-500"
               }`}
               type="text"
             />
@@ -111,7 +107,7 @@ const AddCustomerModel = ({
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Gender
+              {addFormLables.Gender}
             </label>
             <select
               name="gender"
@@ -119,15 +115,20 @@ const AddCustomerModel = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                formik.touched.gender && formik.errors.gender
-                  ? "border-red-500"
-                  : ""
+                formik.touched.gender &&
+                formik.errors.gender &&
+                "border-red-500"
               }`}
             >
-              <option value="" label="Select Gender" />
-              <option value="male" label="Male" />
-              <option value="female" label="Female" />
-              <option value="other" label="Other" />
+              {genderMenu &&
+                Array.isArray(genderMenu) &&
+                genderMenu.map((gender) => (
+                  <option
+                    key={gender.value}
+                    value={gender.value}
+                    label={gender.label}
+                  />
+                ))}
             </select>
             {formik.touched.gender && formik.errors.gender && (
               <p className="text-red-500 text-xs italic">
@@ -137,7 +138,7 @@ const AddCustomerModel = ({
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Status
+              {addFormLables.Status}
             </label>
             <select
               name="status"
@@ -145,14 +146,20 @@ const AddCustomerModel = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                formik.touched.status && formik.errors.status
-                  ? "border-red-500"
-                  : ""
+                formik.touched.status &&
+                formik.errors.status &&
+                "border-red-500"
               }`}
             >
-              <option value="" label="Select Status" />
-              <option value="active" label="Active" />
-              <option value="inactive" label="Inactive" />
+              {statusMenu &&
+                Array.isArray(statusMenu) &&
+                genderMenu.map((status) => (
+                  <option
+                    key={status.value}
+                    value={status.value}
+                    label={status.label}
+                  />
+                ))}
             </select>
             {formik.touched.status && formik.errors.status && (
               <p className="text-red-500 text-xs italic">
@@ -161,12 +168,6 @@ const AddCustomerModel = ({
             )}
           </div>
           <div className="flex justify-between">
-            {/* <button
-              type="submit"
-              className="bg-gray-700 text-white rounded-lg p-2 hover:scale-110 duration-300"
-            >
-              Add
-            </button> */}
             <Button
               buttonName={
                 button_mode === "add" ? "Add Customer" : "edit Customer"

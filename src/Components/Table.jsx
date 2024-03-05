@@ -3,7 +3,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
 import AddCustomerModel from "./AddCustomerModel";
 import Button from "./Button";
-import { additionalStatusOptions } from "../Constants/TableConstants";
+import { additionalStatusOptions, id } from "../Constants/TableConstants";
 
 const ItemsPerPage = 5;
 const Table = ({
@@ -106,7 +106,7 @@ const Table = ({
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
             <thead className="text-xs text-gray-400 uppercase bg-gray-700">
               <tr>
-                <th className="px-6 py-3">Id</th>
+                <th className="px-6 py-3">{id}</th>
                 {tableHeader &&
                   Array.isArray(tableHeader) &&
                   tableHeader.map((header) => (
