@@ -11,17 +11,15 @@ import Swal from "sweetalert2";
 const Customers = () => {
   const [tableRows, setTableRows] = useState([]);
   const { id } = useParams();
-  const notify = () => toast.success("Deleted Successfully");
-  const notifyDeleteError = () => toast.success("Delete Not Successful");
+  
 
   useEffect(() => {
-      console.log("fetch data in customer");
-      apiService
-        .getCustomersData(id)
-        .then((data) => {
-          setTableRows(data.data);
-        })
-        .catch((error) => console.log(error));
+    apiService
+      .getCustomersData(id)
+      .then((data) => {
+        setTableRows(data.data);
+      })
+      .catch((error) => console.log(error));
   }, [id]);
 
   function createCustomer(customerData) {
@@ -64,13 +62,13 @@ const Customers = () => {
         apiService
           .deleteCustomer(id)
           .then(() => {
-            notify();
+          toast.success("Deleted Successfully");
             apiService
               .getCustomersData()
               .then((data) => setTableRows(data.data));
           })
           .catch((error) => {
-            notifyDeleteError();
+             toast.success("Delete Not Successful");
             console.log(error);
           });
       }

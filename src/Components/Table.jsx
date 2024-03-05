@@ -27,10 +27,9 @@ const Table = ({
   };
 
   const handleStatusChange = (e, customerId) => {
-    const newStatus = e.target.value;
     const updatedCustomerData = tableData.map((customer) => {
       if (customer.id === customerId) {
-        return { ...customer, status: newStatus };
+        return { ...customer, status: e.target.value };
       }
       return customer;
     });
