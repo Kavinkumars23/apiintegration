@@ -19,7 +19,7 @@ const Customers = () => {
       .then((data) => {
         setTableRows(data.data);
       })
-      .catch((error) => console.log(error));
+      
   }, [id]);
 
   function createCustomer(customerData) {
@@ -29,10 +29,6 @@ const Customers = () => {
         console.log(data);
         apiService.getCustomersData().then((data) => setTableRows(data.data));
       })
-      .catch((error) => {
-        console.log(error.response);
-        console.log(error.message);
-      });
   }
 
   function handleEdit(id, customerData) {
@@ -42,11 +38,7 @@ const Customers = () => {
         console.log(id, customerData, data);
         apiService.getCustomersData().then((data) => setTableRows(data.data));
       })
-      .catch((error) => {
-        console.log(customerData);
-        console.log(error.response);
-        console.log(error.message);
-      });
+      
   }
 
   function deleteCustomer(id) {
