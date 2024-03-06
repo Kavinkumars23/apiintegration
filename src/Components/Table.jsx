@@ -6,6 +6,7 @@ import Button from "./Button";
 import { additionalStatusOptions, id } from "../Constants/TableConstants";
 
 const ItemsPerPage = 5;
+
 const Table = ({
   tableHeader,
   tableData,
@@ -14,16 +15,21 @@ const Table = ({
   deleteCustomer,
   editCustomer,
 }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editModeData, setEditModeData] = useState(null);
-  const [button_mode, setMode] = useState("add");
+  const [state, setState] = useState({
+    searchTerm: "",
+    currentPage: 1,
+    isModalOpen: false,
+    editModeData: null,
+    button_mode: "add",
+  });
 
   const openModal = (mode, customerData) => {
-    setEditModeData(customerData);
-    setMode(mode);
-    setIsModalOpen(true);
+    setState((prevState) => ({
+      ...prevState,
+      editModeData: customerData,
+      button_mode: mode,
+      isModalOpen: true,
+    }));
   };
 
   const handleStatusChange = (e, customerId) => {
@@ -52,7 +58,7 @@ const Table = ({
         Object.values(row).some(
           (value) =>
             typeof value === "string" &&
-            value.toLowerCase().includes(searchTerm.toLowerCase())
+            value.toLowerCase().includes(state.searchTerm.toLowerCase())
         )
       )
     : [tableData];
@@ -61,15 +67,15 @@ const Table = ({
   const totalPages = Math.ceil(totalItems / ItemsPerPage);
 
   const data = filteredData.slice(
-    (currentPage - 1) * ItemsPerPage,
-    currentPage * ItemsPerPage
+    (state.currentPage - 1) * ItemsPerPage,
+    state.currentPage * ItemsPerPage
   );
 
   const visiblePageRange = 2;
-  const startPage = Math.max(1, currentPage - visiblePageRange);
-  const endPage = Math.min(totalPages, currentPage + visiblePageRange);
+  const startPage = Math.max(1, state.currentPage - visiblePageRange);
+  const endPage = Math.min(totalPages, state.currentPage + visiblePageRange);
 
-  const startingSerialNumber = (currentPage - 1) * ItemsPerPage + 1;
+  const startingSerialNumber = (state.currentPage - 1) * ItemsPerPage + 1;
 
   let page = [];
   for (let i = startPage; i <= endPage; i++) {
@@ -77,15 +83,15 @@ const Table = ({
   }
 
   return (
-    <div className=" w-full">
-      <div className=" flex justify-between">
+    <div className="w-full">
+      <div className="flex justify-between">
         <div>
           <input
-            className="bg-gray-700 rounded-lg p-2 mb-3 "
+            className="bg-gray-700 rounded-lg p-2 mb-3"
             type="text"
             placeholder="Search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={state.searchTerm}
+            onChange={(e) => setState({ ...state, searchTerm: e.target.value })}
           />
         </div>
         <div>
@@ -93,17 +99,15 @@ const Table = ({
             <Button
               buttonName="Add Customer"
               buttonAction={() => openModal("add", null)}
-              buttonType={"button"}
-              buttonStyle={
-                "bg-gray-700 rounded-lg p-2 mb-3 text-gray-400 ms-3 hover:scale-110 duration-300"
-              }
+              buttonType="button"
+              buttonStyle="bg-gray-700 rounded-lg p-2 mb-3 text-gray-400 ms-3 hover:scale-110 duration-300"
             />
           )}
         </div>
       </div>
       <div className=" overflow-x-auto rounded-lg">
         <div className="">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500">
             <thead className="text-xs text-gray-400 uppercase bg-gray-700">
               <tr>
                 <th className="px-6 py-3">{id}</th>
@@ -177,19 +181,27 @@ const Table = ({
             Array.isArray(page) &&
             page.map((page_number) => (
               <li className="p-2" key={page_number}>
-                <a onClick={() => setCurrentPage(page_number)}>{page_number}</a>
+                <button
+                  onClick={() =>
+                    setState({ ...state, currentPage: page_number })
+                  }
+                >
+                  {page_number}
+                </button>
               </li>
             ))}
         </ul>
       </div>
-      {isModalOpen && (
+      {state.isModalOpen && (
         <AddCustomerModel
           closeCustomerModel={() => {
-            setIsModalOpen(false);
+            setState({ ...state, isModalOpen: false });
           }}
-          customerAction={button_mode === "add" ? addCustomer : editCustomer}
-          button_mode={button_mode}
-          customerData={editModeData}
+          customerAction={
+            state.button_mode === "add" ? addCustomer : editCustomer
+          }
+          button_mode={state.button_mode}
+          customerData={state.editModeData}
         />
       )}
     </div>

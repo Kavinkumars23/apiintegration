@@ -2,7 +2,12 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "./Button";
-import { addFormLables, genderMenu, modelName, statusMenu } from "../Constants/TableConstants";
+import {
+  addFormLables,
+  genderMenu,
+  modelName,
+  statusMenu,
+} from "../Constants/TableConstants";
 
 const AddCustomerModel = ({
   closeCustomerModel,
@@ -153,7 +158,7 @@ const AddCustomerModel = ({
             >
               {statusMenu &&
                 Array.isArray(statusMenu) &&
-                genderMenu.map((status) => (
+                statusMenu.map((status) => (
                   <option
                     key={status.value}
                     value={status.value}
