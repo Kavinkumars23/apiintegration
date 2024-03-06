@@ -46,7 +46,6 @@ const AddCustomerModel = ({
         if (button_mode === "add") {
           await customerAction(formik.values);
         } else if (button_mode === "Edit") {
-          console.log("kkk");
           await customerAction(customerData.id, formik.values);
         }
         closeCustomerModel();
