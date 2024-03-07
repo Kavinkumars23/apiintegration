@@ -20,7 +20,7 @@ export const links = [
   {
     id: 1,
     name: "Customer",
-    link: "/Customer",
+    link: "/Home/Customer",
   },
 ];
 
