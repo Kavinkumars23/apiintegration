@@ -20,7 +20,7 @@ export const links = [
   {
     id: 1,
     name: "Customer",
-    link: "/Customer",
+    link: "/Home/Customer",
   },
 ];
 
@@ -61,3 +61,12 @@ export const statusMenu = [
     label: "Inactive",
   },
 ];
+
+export const LogOutModelHeading = "Do You Want to Stay?";
+
+export const yes = "Yes";
+export const no = "No";
+
+export const UserNameLabal = "UserName";
+export const PasswordLabal = "Password";
+export const LoginButton = "Login";

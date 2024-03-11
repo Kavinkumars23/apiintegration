@@ -16,7 +16,7 @@ const SideBar = () => {
   const [selectedRadio, setSelectedRadio] = useState({});
   const handleRadioChange = (field, value) => {
     const id = findIdByName(value, field);
-    navigate(`/Customer/${id}`);
+    navigate(`/Home/Customer/${id}`);
     setSelectedRadio((prev) => ({ ...prev, [field]: value }));
   };
 

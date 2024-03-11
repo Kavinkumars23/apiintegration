@@ -11,34 +11,25 @@ import Swal from "sweetalert2";
 const Customers = () => {
   const [tableRows, setTableRows] = useState([]);
   const { id } = useParams();
-  
 
   useEffect(() => {
-    apiService
-      .getCustomersData(id)
-      .then((data) => {
-        setTableRows(data.data);
-      })
-      
+    apiService.getCustomersData(id).then((data) => {
+      setTableRows(data.data);
+    });
   }, [id]);
 
   function createCustomer(customerData) {
-    apiService
-      .createCustomer(customerData)
-      .then((data) => {
-        console.log(data);
-        apiService.getCustomersData().then((data) => setTableRows(data.data));
-      })
+    apiService.createCustomer(customerData).then((data) => {
+      console.log(data);
+      apiService.getCustomersData().then((data) => setTableRows(data.data));
+    });
   }
 
   function handleEdit(id, customerData) {
-    apiService
-      .putCustomer(id, customerData)
-      .then((data) => {
-        console.log(id, customerData, data);
-        apiService.getCustomersData().then((data) => setTableRows(data.data));
-      })
-      
+    apiService.putCustomer(id, customerData).then((data) => {
+      console.log(id, customerData, data);
+      apiService.getCustomersData().then((data) => setTableRows(data.data));
+    });
   }
 
   function deleteCustomer(id) {
@@ -54,13 +45,13 @@ const Customers = () => {
         apiService
           .deleteCustomer(id)
           .then(() => {
-          toast.success("Deleted Successfully");
+            toast.success("Deleted Successfully");
             apiService
               .getCustomersData()
               .then((data) => setTableRows(data.data));
           })
           .catch((error) => {
-             toast.success("Delete Not Successful");
+            toast.success("Delete Not Successful");
             console.log(error);
           });
       }
