@@ -21,7 +21,7 @@ const apiService = {
   },
   login: (email, password) => {
     return axios.post(
-      " https://23de-2405-201-e059-b805-651d-8827-a979-240b.ngrok-free.app/api/v1/login",
+      "https://23de-2405-201-e059-b805-651d-8827-a979-240b.ngrok-free.app/api/v1/login",
       { email, password },
       {
         headers: {

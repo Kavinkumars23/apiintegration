@@ -8,11 +8,14 @@ import {
   UserNameLabal,
 } from "../Constants/TableConstants";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginAction } from "../redux/action/LoginAction";
 
 const Login = ({ setIsSignedIn }) => {
+  const data = useSelector((state) => state.Loginstore.LoginModel);
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
-    username: Yup.string()
+    email: Yup.string()
       .required("Username is required")
       .matches(/^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/, "Enter valid mail id"),
     password: Yup.string()
@@ -22,22 +25,21 @@ const Login = ({ setIsSignedIn }) => {
         "Password must contain at least one letter, one number, and one special character"
       ),
   });
-
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      const { username, password } = values;
-      apiService.login(username, password).then((response) => {
-        if (response.data.token) {
-          localStorage.setItem("token", `Bearer ${response.data.token}`);
-          setIsSignedIn(true);
-          navigate(`/Home`);
-        }
-      });
+      dispatch(LoginAction(values));
+      if (data && data.data) {
+        console.log(data.data);
+        localStorage.setItem("token", `Bearer ${data.data}`);
+        setIsSignedIn(true);
+        navigate("/Home");
+      }
     },
   });
 
@@ -51,16 +53,16 @@ const Login = ({ setIsSignedIn }) => {
               <label htmlFor="username">{UserNameLabal}</label>
               <input
                 id="username"
-                name="username"
+                name="email"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.username}
+                value={formik.values.email}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
               />
-              {formik.touched.username && formik.errors.username && (
+              {formik.touched.email && formik.errors.email && (
                 <p className="text-red-500 text-xs italic">
-                  {formik.errors.username}
+                  {formik.errors.email}
                 </p>
               )}
             </div>
