@@ -7,16 +7,27 @@ import { tableColumns } from "../Constants/TableConstants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCustomerAction } from "../redux/action/GetCustomerAction";
 
 const Customers = () => {
   const [tableRows, setTableRows] = useState([]);
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.CustomerStore.CustomerDataModel);
 
   useEffect(() => {
-    apiService.getCustomersData(id).then((data) => {
-      setTableRows(data.data);
-    });
+    dispatch(GetCustomerAction(id));
   }, [id]);
+
+  
+  useEffect(() => {
+    if (data && data.data && Array.isArray(data.data) && data.data.length > 0) {
+      console.log(data.data);
+      setTableRows(data.data);
+    }
+  }, [data]);
+
 
   function createCustomer(customerData) {
     apiService.createCustomer(customerData).then((data) => {

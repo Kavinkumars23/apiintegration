@@ -19,10 +19,10 @@ const apiService = {
   deleteCustomer: (id) => {
     return instance.delete(`/users/${id}`);
   },
-  login: (email, password) => {
+  login: (payload) => {
     return axios.post(
-      "https://23de-2405-201-e059-b805-651d-8827-a979-240b.ngrok-free.app/api/v1/login",
-      { email, password },
+      `https://6da5-2405-201-e059-b805-e5d0-6c8c-c766-33be.ngrok-free.app/api/v1/login`,
+      payload ,
       {
         headers: {
           "ngrok-skip-browser-warning": true,

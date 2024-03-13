@@ -1,7 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";  
 import * as Yup from "yup";
-import apiService from "../Constants/ApiServices";
 import {
   LoginButton,
   PasswordLabal,
@@ -25,6 +24,7 @@ const Login = ({ setIsSignedIn }) => {
         "Password must contain at least one letter, one number, and one special character"
       ),
   });
+  
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -35,10 +35,10 @@ const Login = ({ setIsSignedIn }) => {
     onSubmit: (values) => {
       dispatch(LoginAction(values));
       if (data && data.data) {
+        localStorage.setItem("token", `Bearer ${data.data.token}`);
         console.log(data.data);
-        localStorage.setItem("token", `Bearer ${data.data}`);
         setIsSignedIn(true);
-        navigate("/Home");
+        navigate("/Home"); 
       }
     },
   });
@@ -59,7 +59,7 @@ const Login = ({ setIsSignedIn }) => {
                 value={formik.values.email}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
-              />
+              /> 
               {formik.touched.email && formik.errors.email && (
                 <p className="text-red-500 text-xs italic">
                   {formik.errors.email}
