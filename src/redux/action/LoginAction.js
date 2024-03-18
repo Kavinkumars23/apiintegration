@@ -1,9 +1,7 @@
-import axios from "axios";
 import { Login } from "../constants";
 import apiService from "../../Constants/ApiServices";
 
 export const LoginAction = (payload) => async (dispatch) => {
-  console.log("entered to login action");
   dispatch({
     type: Login.LOADING,
     payload: { loading: true },

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";  
 import * as Yup from "yup";
 import {
@@ -24,7 +24,14 @@ const Login = ({ setIsSignedIn }) => {
         "Password must contain at least one letter, one number, and one special character"
       ),
   });
-  
+  useEffect(()=>{
+    if (data && data.data && data.data.token) {
+      localStorage.setItem("token", `Bearer ${data.data.token}`);
+      console.log(data.data);
+      setIsSignedIn(true);
+      navigate("/Home"); 
+    }
+  },[data]);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -34,12 +41,7 @@ const Login = ({ setIsSignedIn }) => {
     validationSchema,
     onSubmit: (values) => {
       dispatch(LoginAction(values));
-      if (data && data.data) {
-        localStorage.setItem("token", `Bearer ${data.data.token}`);
-        console.log(data.data);
-        setIsSignedIn(true);
-        navigate("/Home"); 
-      }
+      
     },
   });
 
