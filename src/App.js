@@ -18,12 +18,12 @@ function App() {
     clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(() => {
       setTimeOutModel(true);
-    }, 10000);
+    }, 60000);
   };
 
-const navigateToModel = () => {
-    navigate("/");
-}
+  const navigateToModel = () => {
+      navigate("/");
+  }
 
   useEffect(() => {
     // Add event listener for mouse movement to reset inactivity timer
@@ -57,7 +57,6 @@ const navigateToModel = () => {
       {timeOutModel && (
         <RedirectMessage
           navigateLogin={navigateToModel}
-        
           setIsModelOpen={setTimeOutModel}
         />
       )}
@@ -67,7 +66,8 @@ const navigateToModel = () => {
           <div className="w-1/6">
             <SideBar />
           </div>
-          <div className="lg:w-5/6 w-full md:mt-0 mt-20">
+          
+          <div className="lg:w-5/6 w-full md:mt-0 mt-32">
             <Outlet />
           </div>
         </div>
