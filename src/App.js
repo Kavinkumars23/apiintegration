@@ -21,9 +21,9 @@ function App() {
     }, 60000);
   };
 
-const navigateToModel = () => {
-    navigate("/");
-}
+  const navigateToModel = () => {
+      navigate("/");
+  }
 
   useEffect(() => {
     // Add event listener for mouse movement to reset inactivity timer
